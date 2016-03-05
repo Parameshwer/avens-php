@@ -1,0 +1,333 @@
+<?php
+/**
+* The main template file
+*
+* This is the most generic template file in a WordPress theme and one of the
+* two required files for a theme (the other being style.css).
+* It is used to display a page when nothing more specific matches a query.
+* For example, it puts together the home page when no home.php file exists.
+*
+* @link http://codex.wordpress.org/Template_Hierarchy
+*
+* @package WordPress
+* @subpackage Twenty_Thirteen
+* @since Twenty Thirteen 1.0
+*/
+
+get_header(); ?>
+<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/jquery.validator.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery("#home_subscribe_form").validate({
+		rules: {
+			name: "required",
+			email: {
+				required: true,
+				email: true
+			}
+		},
+		messages: {
+			name: "Please enter your firstname",
+			email: "Please enter a valid email address"
+
+		},
+		success: function(){
+			jQuery(this).click(false);
+		    jQuery(this).attr("readonly", true);
+		}
+	});
+	});
+</script>
+
+<div id="primary" class="content-area">
+	<div id="featured-content" class="site-content" role="main">
+		<div class="container">
+			<div class="row">
+<div class="col-sm-12 text-center"><div class="featured-heading">Featured Journals</div></div>
+<?php 
+$arr = array();
+$categories = get_categories($args);
+
+  foreach ($categories as $cat) {
+//print_r($cat->term_id);
+$id_cat = "category_$cat->term_id";
+$field= get_field('is_featured_yes', $id_cat);
+ if($field == 'Yes'){
+$id_cat = "category_$cat->term_id";
+//print_r($cat->term_id);
+$sidebar_img= get_field('c_sidebar_image', $id_cat);
+
+$child = get_category($cat->term_id);
+$parent = $child->parent;
+$parent_name = get_category($parent);
+$parent_names = $parent_name->name;
+ ?>
+      <div class="col-sm-4">
+<div class="featured-box">
+	<img src="<?php echo $sidebar_img; ?>" alt="" class="img-responsive">
+</div>
+<?php $myposts = get_posts('numberposts=1&category='.$cat->term_id); ?>
+	<h2><a href="<?php echo get_permalink($myposts[0]->ID) ; ?>"><?php echo $cat->name?></a></h2>
+	<p class="jour-info"><?php echo $cat->category_description; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $parent_names; ?></p>
+</div>
+<?php  }
+}
+?>
+				<!--- <div class="col-sm-12 text-center"><h1>Featured Journals</h1></div>
+
+<div class="col-sm-4">
+	<img src="<?php //bloginfo('template_directory'); ?>/images/sample.png" alt="" class="img-responsive">
+	<h2>Journal of Parkinson’s disease and Alzheimer's disease</h2>
+	<p class="jour-info">ISSN:4567-7890&nbsp;&nbsp;|&nbsp;&nbsp;Medical</p>
+</div>
+<div class="col-sm-4">
+	<img src="<?php //bloginfo('template_directory'); ?>/images/sample2.png" alt="" class="img-responsive">
+	<h2>Journal of Transplantation & Stem Cell Biology</h2>
+	<p class="jour-info">ISSN:4567-7890&nbsp;&nbsp;|&nbsp;&nbsp;Biology</p>
+</div>
+<div class="col-sm-4">
+	<img src="<?php //bloginfo('template_directory'); ?>/images/sample.png" alt="" class="img-responsive">
+	<h2>Bioelectronics &amp; Nanotechnology</h2>
+	<p class="jour-info">ISSN:4567-7890&nbsp;&nbsp;|&nbsp;&nbsp;Medical</p>
+</div> --->				
+</div>
+</div>
+</div>
+<div id="content" class="site-content" role="main">
+	<div class="container">
+		<div class="row" style="padding:40px 0;">
+			<div class="col-sm-8">
+				<div id="latest-articles">
+					<div class="strip-bar">
+						<h3>Latest Articles</h3>
+						<div class="nav-controls">
+							<a href="#" class="custom-prev">
+								<img src="<?php bloginfo('template_directory'); ?>/images/left-arrow.png" alt="Prev">
+							</a>
+							<a href="#" class="custom-next">
+								<img src="<?php bloginfo('template_directory'); ?>/images/right-arrow.png" alt="Next">
+							</a>
+						</div>
+					</div>
+					<div id="latest-articles-inner">
+						<?php for ($i=0; $i < 5; $i++) { /*?>
+						<div class="media">
+							<a class="media-left" href="#">
+								<img src="<?php bloginfo('template_directory'); ?>/images/media_img.png" alt="">
+							</a>
+							<div class="media-body">
+								<h4 class="media-heading">A Vallecular Thyroglossal DuctCyst Presenting with Persistent Unexplained Cough in a Toddler</h4>
+								<p class="jour-info">Youqiang Ke&nbsp;&nbsp;|&nbsp;&nbsp;Journal of Andrology & Gynaecology</p>												
+							</div>
+						</div>
+						<?php */ }	?>						
+					<?php  /*query_posts('cat=65&showposts=160'); ?>
+					<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+					<?php $cat	=	get_the_category($post->ID);
+					$id	= $cat[0]->cat_ID;	
+					$permalink = get_permalink( $post->ID );
+					$url = get_the_post_thumbnail( $post->ID, 'thumbnail' );
+					echo '<div class="media">';
+					echo '<div class="media-left">'.$url.'</div>'; ?>
+					<div class="media-body"><?php echo the_content(); ?></div>
+					<?php echo '</div>'; ?>
+					<?php endwhile; else: ?>
+					<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+					<?php endif;  */?>
+					<div id="latest-article-results"></div>		
+					<div class="paginatio-custom"><div class="pagination"></div></div>
+					</div>
+				</div>
+				<div id="collab-section">					
+					<div class="strip-bar"><h3>Collaborations and Indexing</h3>
+						<div class="nav-controls">
+							<a href="#myCarousel" data-slide="prev" class="prev">
+								<img src="<?php bloginfo('template_directory'); ?>/images/left-arrow.png" alt="Prev">
+							</a>
+							<a href="#myCarousel" data-slide="next" class="next">
+								<img src="<?php bloginfo('template_directory'); ?>/images/right-arrow.png" alt="Next">
+							</a>
+						</div>
+					</div>							
+					<div class="carousel slide" id="myCarousel">
+						<div class="carousel-inner"> 
+							<div class="item active">
+                                                                <div class="row">
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://www.crossref.org/01company/06publishers.html" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/05/crossref.png" alt="crossref"></a>
+									
+								</div>
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="https://scholar.google.co.in/scholar?hl=en&q=avensonline.org&btnG=" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/05/googles.png" alt="google"></a>
+									
+								</div>								
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://www.icmje.org/journals-following-the-icmje-recommendations/" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/05/icje.png" alt="icje"></a>
+									
+								</div>
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://jgateplus.com/search/footer-html/PublisherPartners.jsp" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/05/jgate.png" alt="jgate"></a>
+									
+								</div>
+                                                               </div>
+							</div>
+<div class="item">
+                                                                <div class="row">
+								
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<!--<a href="#"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/05/slapcap.png" alt="Slapcap"></a>-->
+                                                                        <a href="http://en.indexcopernicus.com/" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/08/copernicus.png" alt="Copernicus"></a>
+									
+								</div>								
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="https://www.worldcat.org/search?qt=worldcat_org_all&q=avensonline.org" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/05/worldcat.png" alt="Worldcat"></a>
+									
+								</div>
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://www.crossref.org/crosscheck/index.html" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/05/crosscheck.png" alt="Crosscheck"></a>
+									
+								</div>
+                                                                <div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://www.academickeys.com/" target="_blank"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/06/academic-keys.png" alt="Academic Keys"></a>
+									
+								</div>
+                                                               </div>
+							</div>	
+<div class="item">
+                                                                <div class="row">
+								
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="https://cse.google.com/cse?cx=partner-pub-4404998886222708%3A2259546848&ie=UTF-8&q=avensonline.org&sa=Google&siteurl=www.researchbib.com%2F&ref=www.google.co.in%2F&ss=1014j276500j5#gsc.tab=0&gsc.q=avensonline.org&gsc.page=1" target="_blank"><img src="http://www.avensonline.org/wp-content/uploads/2015/07/rb.png" alt="rb"></a>
+									
+								</div>								
+								<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://sciforum.net/statistics/publisher/journals/2366" target="_blank"><img src="http://www.avensonline.org/wp-content/uploads/2015/07/scforum.png" alt="scforum"></a>
+									
+								</div>
+<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://www.drji.org/" target="_blank"><img src="http://www.avensonline.org/wp-content/uploads/2015/07/drji.png" alt="drji"></a>
+									
+								</div>
+<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://www.sherpa.ac.uk/romeo/search.php?id=2458&fIDnum=|&mode=simple&la=en" target="_blank"><img src="http://www.avensonline.org/wp-content/uploads/2015/08/sherp-romeo.jpg" alt="Sherp Romeo"></a>
+									
+								</div>
+
+
+
+</div>
+</div>
+<div class="item">
+<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://www.pubshub.com/" target="_blank"><img src="http://www.avensonline.org/wp-content/uploads/pubshub.jpg" alt="pubshub"></a>
+									
+								</div><div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://miar.ub.edu/" target="_blank"><img src="http://www.avensonline.org/wp-content/uploads/mair.jpg" alt="mair"></a>
+									
+								</div>	<div class="col-lg-3 col-xs-3 col-md-3 col-sm-3">
+									<a href="http://miar.ub.edu/" target="_blank"><img src="http://www.avensonline.org/wp-content/uploads/mair.jpg" alt="mair"></a>
+									
+								</div></div>												            
+						</div>
+						<div class="view-all"></div>
+					</div>
+				</div>						
+			</div>			
+		<div class="col-sm-4">
+			<div class="journal-cats">
+				<div class="medical-bg cat-bar"><a href="<?php echo bloginfo('url'); ?>/journals/?sort_type=medical">Medical</a></div>
+				<div class="biotech-bg cat-bar"><a href="<?php echo bloginfo('url'); ?>/journals/?sort_type=biotechnology">Biotechnology</a></div>
+				<div class="biology-bg cat-bar"><a href="<?php echo bloginfo('url'); ?>/journals/?sort_type=biology">Biology</a></div>
+				<div class="pharmaceutical-bg cat-bar"><a href="<?php echo bloginfo('url'); ?>/journals/?sort_type=pharmaceutical">Pharmaceutical</a></div>
+			</div>
+			<div id="subscription-wrapper">
+<div class="feedburner-email-subscription">
+<div class="fes-default">
+				<p>Subscribe for updates</p>
+				<?php //$var = do_shortcode( '[feedburner]' ); //echo $var; ?>
+					<form action="<?php echo bloginfo('url'); ?>/subscribe/" method="post" id="home_subscribe_form">
+					<div class="form-group">
+				<label class="sr-only"><span class="screen-reader-text">Email Subscription</span></label>
+				<input class="form-control search-field" type="text" value="Your email here" onfocus="if(this.value=='Your email here')this.value='';" onblur="if(this.value=='')this.value='Your email here'" name="email">
+			</div>
+			<button type="submit" class="btn btn-default btn-submit">Subscribe</button>			
+				<input type="hidden" value="zourbuth" name="uri">
+		<input type="hidden" name="loc" value="en_US">
+	</form>
+</div></div>
+			</div>
+			<div id="latest-updates">
+				<div class="strip-bar">
+					<h3>Latest Journal Updates</h3>
+				</div>
+				<div class="latest-updates-inner">
+					<div class="latest-update">
+						<?php //echo do_shortcode('[display-posts category="Biology" posts_per_page="5" include_date="false" ]');?>
+<?php
+/*
+$cat = 13;
+$categories=get_categories('child_of='.$cat);
+if ($categories) {
+ foreach($categories as $term) {
+//print_r($term);
+ $myposts = get_posts('numberposts=1&category='.$term->term_id);
+?>
+	<h4><a href="<?php //echo get_permalink($myposts[0]->ID) ; ?>"><?php //echo $term->name; ?></a></h4>
+
+<?php  }
+}
+*/
+
+?>
+<?php
+$my_postid = 17532;//This is page id or post id
+$content_post = get_post($my_postid);
+$content = $content_post->post_content;
+echo $content;
+?>
+				</div>
+			</div>
+			</div>
+			<div id="follow-linkedin">
+				<h3>Follow us on LinkedIn</h3>
+				<div class="follow-linkedin-inner">
+					<img src="<?php bloginfo('template_directory'); ?>/images/linkedin.png" alt="">
+					<!--<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+					<script type="IN/FollowCompany" data-id="645919" data-counter="right"></script> -->
+				</div>				
+			</div>
+
+			<div id="facebook-box">
+<!---<img src="<?php bloginfo('template_directory'); ?>/images/facebook.png" alt=""> --->
+<div class="fb-like-box" data-href="https://www.facebook.com/www.avensonline.org" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true" data-width="310"></div>
+			</div>
+		</div>
+	</div>				
+</div>			
+</div><!-- #content -->
+</div><!-- #primary -->
+<script type="text/javascript">
+jQuery('#myCarousel').carousel({
+	interval: 5000
+});
+/*
+$('.carousel .item').each(function(){
+	var next = $(this).next();
+	if (!next.length) {
+		next = $(this).siblings(':first');
+	}
+	next.children(':first-child').clone().appendTo($(this));
+
+	if (next.next().length>0) {
+
+		next.next().children(':first-child').clone().appendTo($(this)).addClass('rightest');
+
+	}
+	else {
+		$(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+
+	}
+});*/
+</script>
+<?php //get_sidebar(); ?>
+<?php get_footer(); ?>
