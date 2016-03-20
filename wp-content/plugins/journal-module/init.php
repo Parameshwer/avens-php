@@ -4,7 +4,7 @@ Plugin Name: journal module
 Plugin URI: ""
 Descriptionription: journal module
 Version: 
-Author: Parameshwer Chiluverisasas
+Author: Parameshwer Chiluveri
 Author URI: 
 License:    
 */
@@ -66,6 +66,8 @@ function adding_admin_menu() {
 define('ROOTDIR', plugin_dir_path(__FILE__));
 require_once(ROOTDIR . 'create_category.php');
 require_once(ROOTDIR . 'create_journal.php');
+require_once(ROOTDIR . 'create_journal_post.php');
+require_once(ROOTDIR . 'all_categories.php');
 
 /*add_action('wp_print_scripts', 'journal_module_script');
 function journal_module_script() {
@@ -76,5 +78,16 @@ function journal_module_script() {
     }
 }*/
 
-echo '<link href="'. plugins_url( 'css/bootstrap.min.css' , __FILE__ ) . '" rel="stylesheet" type="text/css" />';
+//echo '<link href="'. plugins_url( 'css/bootstrap.min.css' , __FILE__ ) . '" rel="stylesheet" type="text/css" />';
+if(is_admin()){
+function add_header_phpmodule() {
+    wp_enqueue_style( 'bootstrap-css', plugin_dir_url( __FILE__ ).'css/bootstrap.min.css');
+    wp_enqueue_style( 'my-css', plugin_dir_url( __FILE__ ).'css/my-style.css');
+    wp_enqueue_script('validator', plugin_dir_url( __FILE__ ).'js/jquery.validator.js');
+    wp_enqueue_script('my-js', plugin_dir_url( __FILE__ ).'js/my-script.js');
+
+}
+add_action('init', 'add_header_phpmodule');
+}
+
 ?>

@@ -409,3 +409,4 @@ add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
 
 add_action('admin_post_submit-form', '_handle_form_action'); // If the user is logged in
 add_action('admin_post_nopriv_submit-form', '_handle_form_action'); // If the user in not logged in
+
