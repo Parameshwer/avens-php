@@ -61,8 +61,8 @@ if($_GET['id']) {
 
 
 <div class="mypluggin-main-content">
-
-    <h1 class="page-header">Main Cateory</h1>
+    
+    <h1 class="page-header"><?php echo isset($results['0']['category_id'])?'Edit':'Create'; ?> Category</h1>
     <div class="form-box">
         <form class="form-horizontal" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="form-group">

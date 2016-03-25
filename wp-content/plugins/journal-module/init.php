@@ -68,6 +68,8 @@ require_once(ROOTDIR . 'create_category.php');
 require_once(ROOTDIR . 'create_journal.php');
 require_once(ROOTDIR . 'create_journal_post.php');
 require_once(ROOTDIR . 'all_categories.php');
+require_once(ROOTDIR . 'all_journals.php');
+require_once(ROOTDIR . 'all_journal_posts.php');
 
 /*add_action('wp_print_scripts', 'journal_module_script');
 function journal_module_script() {
