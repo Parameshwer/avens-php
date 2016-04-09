@@ -36,6 +36,13 @@ function adding_admin_menu() {
         'create_journal_post',
         'create_journal_post'
         ); 
+     add_submenu_page('create_category',
+        'Create Archive',
+        'Create Archive',
+        'manage_options',
+        'create_archive',
+        'create_archive'
+        );
     add_submenu_page('create_category',
         'All Journal Posts',
         'All Journal Posts',
@@ -58,6 +65,14 @@ function adding_admin_menu() {
         'all_categories'
         ); 
 
+   
+    add_submenu_page('create_category',
+        'All Archives',
+        'All Archives',
+        'manage_options',
+        'all_archives',
+        'all_archives'
+        ); 
     //add_submenu_page('Create Journal Post', 'Create Journal Post', 'create_journal_post', 'manage_options', 'create_journal_post', 'create_journal_post' ); 
 }
 
@@ -70,6 +85,8 @@ require_once(ROOTDIR . 'create_journal_post.php');
 require_once(ROOTDIR . 'all_categories.php');
 require_once(ROOTDIR . 'all_journals.php');
 require_once(ROOTDIR . 'all_journal_posts.php');
+require_once(ROOTDIR . 'create_archive.php');
+require_once(ROOTDIR . 'all_archives.php');
 
 /*add_action('wp_print_scripts', 'journal_module_script');
 function journal_module_script() {

@@ -2,6 +2,7 @@
 
 function create_journal() {
     global $wpdb;
+
     if($_POST['insert']) {
         $journal_name = $_POST['journal_name'];
         $created_date = date("Y-m-d");
@@ -51,6 +52,7 @@ function create_journal() {
                 'journal_description' => $journal_description
                 )
             );
+            //print_r($wpdb->insert_id);
             if($wpdb->insert_id) {
                 $message.="Journal created successfully";
             }
@@ -76,7 +78,7 @@ function create_journal() {
                 <div class="form-group">
                     <label for="issn_number" class="col-sm-3 control-label">Issn Number</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="issn_number" name="issn_number" value="<?php echo isset($results['0']['issn_number'])?$results['0']['issn_number']:''; ?>" required>
+                        <input type="text" class="form-control" id="issn_number" name="issn_number" value="<?php echo isset($results['0']['issn_number'])?$results['0']['issn_number']:''; ?>" >
                     </div>
                 </div>
                 <div class="form-group">
@@ -107,13 +109,13 @@ function create_journal() {
 <div class="form-group">
     <label for="journal_meta_keywords" class="col-sm-3 control-label">Journal Meta Keywords</label>
     <div class="col-sm-9">
-        <input type="text" class="form-control" id="journal_meta_keywords" name="journal_meta_keywords" value="<?php echo isset($results['0']['journal_meta_keywords'])?$results['0']['journal_meta_keywords']:''; ?>" required>
+        <input type="text" class="form-control" id="journal_meta_keywords" name="journal_meta_keywords" value="<?php echo isset($results['0']['journal_meta_keywords'])?$results['0']['journal_meta_keywords']:''; ?>" >
     </div>
 </div>
 <div class="form-group">
     <label for="journal_ic_value" class="col-sm-3 control-label">Journal Ic Value</label>
     <div class="col-sm-9">
-        <input type="text" class="form-control" id="journal_ic_value" name="journal_ic_value" value="<?php echo isset($results['0']['journal_ic_value'])?$results['0']['journal_ic_value']:''; ?>" required>
+        <input type="text" class="form-control" id="journal_ic_value" name="journal_ic_value" value="<?php echo isset($results['0']['journal_ic_value'])?$results['0']['journal_ic_value']:''; ?>" >
     </div>
 </div>
 <div class="form-group">

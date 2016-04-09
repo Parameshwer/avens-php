@@ -23,7 +23,7 @@ function create_journal_post() {
                     ), 
                 array( 'id' => $_GET['id'])  
                 );
-                print_r($results);      
+                //print_r($results);      
             if($results) {
                 $message.="Journal Post updated successfully";                
             } else {
@@ -49,7 +49,10 @@ function create_journal_post() {
     }
 
 	$cat_res = $wpdb->get_results( 'SELECT * FROM  wp_journal_main_categories', ARRAY_A );
-	$jou_res = $wpdb->get_results( 'SELECT id,journal_name FROM  wp_journals', ARRAY_A );
+	//$jou_res = $wpdb->get_results( 'SELECT id,journal_name FROM  wp_journals', ARRAY_A );
+	$results = $wpdb->get_results( '
+						SELECT a.journal_name,b.category_name, a.main_category_id, a.id FROM wp_journals a, wp_journal_main_categories b WHERE a.main_category_id = b.category_id AND  a.deleted = 1
+					', ARRAY_A);
 	if($_GET['id']) {
        $results = $wpdb->get_results( 'SELECT 
 					c.id,c.post_name,c.post_content,c.created_date,c.updated_date,c.category_id,c.journal_id,
@@ -97,7 +100,7 @@ function create_journal_post() {
 					<div class="col-sm-9">
 						<select class="form-control" name="journal_id">
 							<?php 
-							echo '<option val="">Select Journal</option>';
+							/*echo '<option val="">Select Journal</option>';
 							foreach ($jou_res as $key => $value) {
 								//echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
 								if($results['0']['journal_id'] == $value['id']) {
@@ -105,7 +108,33 @@ function create_journal_post() {
 								} else {
 								    echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
 								}
-							}
+							}*/
+							echo '<option value="">Select Journal</option>';
+							    echo '<optgroup label="Medical"></optgroup>';
+								foreach ($results as $key => $value) {										
+										if($value['category_name'] == 'Medical') {
+									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+										} 
+								}
+								echo '<optgroup label="Biotechnology"></optgroup>';
+								foreach ($results as $key => $value) {										
+										if($value['category_name'] == 'Biotechnology') {
+									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+										} 
+								}
+								echo '<optgroup label="Biology"></optgroup>';
+								foreach ($results as $key => $value) {										
+										if($value['category_name'] == 'Biology') {
+									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+										} 
+								}
+								echo '<optgroup label="Pharmaceutical"></optgroup>';
+								foreach ($results as $key => $value) {										
+										if($value['category_name'] == 'Pharmaceutical') {
+									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+										} 
+								}
+
 							?>
 						</select>
 					</div>
