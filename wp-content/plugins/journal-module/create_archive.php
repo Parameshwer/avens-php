@@ -36,7 +36,10 @@ function create_archive() {
         	$message.="Journal Archive unable to created";
         }
 	}
-
+	if($_GET['id']) {
+        $edit_vals = $wpdb->get_results( 'SELECT * FROM  wp_journal_archives WHERE id = "'.$_GET['id'].'"', ARRAY_A );   
+        
+    }
 
 	$results = $wpdb->get_results( '
 		SELECT a.journal_name,b.category_name, a.main_category_id, a.id FROM wp_journals a, wp_journal_main_categories b WHERE a.main_category_id = b.category_id AND  a.deleted = 1
@@ -59,8 +62,7 @@ function create_archive() {
 								<?php 
 								echo '<option val="">Select Category</option>';
 									foreach ($cat_res as $key => $value) {
-										//echo '<option value='.$value['category_id'].'>'.$value['category_name'].'</option>';
-										if($results['0']['category_id'] == $value['category_id']) {
+										if($edit_vals['0']['category_id'] == $value['category_id']) {
 						                    echo '<option selected value='.$value['category_id'].'>'.$value['category_name'].'</option>';
 						                } else {
 						                    echo '<option value='.$value['category_id'].'>'.$value['category_name'].'</option>';
@@ -116,7 +118,7 @@ function create_archive() {
 								<div class="col-sm-9">
 									<?php
 									if($_GET['id']) {							
-										the_editor($results['0']['archive_desc'], 'archive_desc');     							
+										the_editor($edit_vals['0']['archive_desc'], 'archive_desc');     							
 									}else {
 										the_editor($content, 'archive_desc');
 									}
@@ -126,7 +128,7 @@ function create_archive() {
 							<div class="form-group">
 								<label for="journal_name" class="col-sm-3 control-label">Archive DOI</label>
 								<div class="col-sm-9">
-									<input type="text" name="archive_doi" required id="archive_doi" class="form-control"  />
+									<input type="text" name="archive_doi" required id="archive_doi" class="form-control"  value="<?php echo isset($edit_vals['0']['archive_doi'])?$edit_vals['0']['archive_doi']:''; ?>" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -134,8 +136,12 @@ function create_archive() {
 								<div class="col-sm-9">
 									<select class="form-control" name="archive_year" required>
 										<option value="">Select a year</option>
-										<?php for ($i=2000; $i <=  date("Y") ; $i++) { 
+										<?php for ($i=2000; $i <=  date("Y") ; $i++) {
+										if($results['0']['archive_year'] == $i) {
+											echo '<option selected value='.$i.'>'.$i.'</option>';											
+										} else {
 											echo '<option value='.$i.'>'.$i.'</option>';
+										} 
 										} ?>
 									</select>
 								</div>
@@ -178,7 +184,7 @@ function create_archive() {
 							<div class="form-group">
 								<label for="archive_pdf" class="col-sm-3 control-label">Archive PDF</label>
 								<div class="col-sm-9">
-									<input type="text" name="archive_pdf" id="archive_pdf" class="regular-text" value="<?php echo isset($results['0']['archive_pdf'])?$results['0']['archive_pdf']:''; ?>" required>
+									<input type="text" name="archive_pdf" id="archive_pdf" class="regular-text" value="<?php echo isset($edit_vals['0']['archive_pdf'])?$edit_vals['0']['archive_pdf']:''; ?>" required>
 									<input type="button" name="upload-btn" id="pdf-upload-btn" class="button-secondary" value="Upload PDF" required>
 									<?php 
 									wp_enqueue_script('jquery');
