@@ -14,7 +14,7 @@ function create_journal() {
         $journal_ic_value = $_POST['journal_ic_value'];
         $main_category = $_POST['main_category'];
         $journal_description    = $_POST['journal_description'];
-        if($_POST['id']) {
+        if($_POST['post_id']) {
             $results = $wpdb->update( 
                 'wp_journals', 
                 array( 

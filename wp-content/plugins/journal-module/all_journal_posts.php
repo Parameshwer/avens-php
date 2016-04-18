@@ -3,17 +3,11 @@ function all_journal_posts() {
 	echo '<div class="mypluggin-main-content"><div class="form-box">';
 	global $wpdb;
 	//$res = $wpdb->get_results( 'SELECT * FROM  wp_journal_main_categories', ARRAY_A );
-	$results = $wpdb->get_results( 'SELECT 
-c.id,c.post_name,c.post_content,c.created_date,c.updated_date,c.category_id,c.journal_id,
-b.journal_name,a.category_name
-FROM 
-wp_journal_posts c,
-wp_journals b,
-wp_journal_main_categories a
-WHERE b.main_category_id=c.category_id AND a.category_id=b.main_category_id AND a.category_id=c.category_id
- AND c.deleted = 1', ARRAY_A);
+	/*$results = $wpdb->get_results( 'SELECT jp.id,jp.post_name, jp.category_id, jp.journal_id, jp.post_content,mc.category_name, j.journal_name,jp.created_date, jp.updated_date FROM wp_journal_posts jp INNER JOIN wp_journals j on jp.journal_id = j.id INNER JOIN wp_journal_main_categories mc on j.main_category_id = mc.category_id AND GROUP BY mc.category_id', ARRAY_A);*/
 	//print_r($results);exit;
 	//$results = $wpdb->get_results( 'SELECT * FROM  wp_journals WHERE deleted = 1', ARRAY_A );
+
+	$results = $wpdb->get_results( 'SELECT * FROM wp_journal_posts WHERE deleted=1', ARRAY_A);
 	echo '<h1 class="page-header">All Journals Post <span style="font-size:15px">'.count($results).' Journal(s)</span></h1>';
 	if(count($results) > 0) {
 		echo '<table class="table table-striped">';
@@ -30,8 +24,8 @@ WHERE b.main_category_id=c.category_id AND a.category_id=b.main_category_id AND 
 
 			echo '<tr>';
 			echo '<td>'.$value['post_name'].'</td>';    
-			echo '<td>'.$value['journal_name'].'</td>';    
-			echo '<td>'.$value['category_name'].'</td>';
+			echo '<td>'.$value['journal_id'].'</td>';    
+			echo '<td>'.$value['category_id'].'</td>';
 			echo '<td>'.$value['created_date'].'</td>';
 			echo '<td>'.$value['updated_date'].'</td>';  
 			echo '<td><a href="'.admin_url().'admin.php?page=create_journal_post&id='.$value['id'].'">Edit</a></td>';

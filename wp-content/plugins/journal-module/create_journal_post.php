@@ -50,21 +50,17 @@ function create_journal_post() {
 
 	$cat_res = $wpdb->get_results( 'SELECT * FROM  wp_journal_main_categories', ARRAY_A );
 	//$jou_res = $wpdb->get_results( 'SELECT id,journal_name FROM  wp_journals', ARRAY_A );
-	$results = $wpdb->get_results( '
+	$temp = $wpdb->get_results( '
 						SELECT a.journal_name,b.category_name, a.main_category_id, a.id FROM wp_journals a, wp_journal_main_categories b WHERE a.main_category_id = b.category_id AND  a.deleted = 1
 					', ARRAY_A);
+
 	if($_GET['id']) {
-       $results = $wpdb->get_results( 'SELECT 
-					c.id,c.post_name,c.post_content,c.created_date,c.updated_date,c.category_id,c.journal_id,
-					b.journal_name,a.category_name
-					FROM 
-					wp_journal_posts c,
-					wp_journals b,
-					wp_journal_main_categories a
-					WHERE b.main_category_id=c.category_id AND a.category_id=b.main_category_id AND a.category_id=c.category_id AND c.deleted = 1
-					', ARRAY_A);            
+       /*$edit_results = $wpdb->get_results('
+       	SELECT jp.id,jp.post_name, jp.category_id, jp.journal_id, jp.post_content,mc.category_name, j.journal_name,jp.created_date, jp.updated_date FROM wp_journal_posts jp INNER JOIN wp_journals j on jp.journal_id = j.id INNER JOIN wp_journal_main_categories mc on j.main_category_id = mc.category_id WHERE jp.deleted = 1 AND jp.id="'.$_GET['id'].'"', ARRAY_A);*/  
+       	$edit_results = $wpdb->get_results( 'SELECT * FROM wp_journal_posts WHERE deleted=1 AND id="'.$_GET['id'].'"', ARRAY_A); 
+       	//print_r($edit_results);exit;         
     }
-	//print_r($results);
+	//print_r($edit_results);
 	?>
 	<div class="mypluggin-main-content" style="width: 900px;">
 		<h1 class="page-header">Create Journal Post</h1>
@@ -73,8 +69,8 @@ function create_journal_post() {
 				<div class="form-group">
 					<label for="issn_number" class="col-sm-3 control-label">Post Name</label>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="journal_post_name" name="journal_post_name" value="<?php echo isset($results['0']['post_name'])?$results['0']['post_name']:''; ?>" required>
-						<input type="hidden" name="id" value="<?php echo $results['0']['id']; ?>">
+						<input type="text" class="form-control" id="journal_post_name" name="journal_post_name" value="<?php echo isset($edit_results['0']['post_name'])?$edit_results['0']['post_name']:''; ?>" required>
+						<input type="hidden" name="id" value="<?php echo $edit_results['0']['id']; ?>">
 					</div>
 				</div>
 				<div class="form-group">
@@ -85,7 +81,7 @@ function create_journal_post() {
 							echo '<option val="">Select Category</option>';
 								foreach ($cat_res as $key => $value) {
 									//echo '<option value='.$value['category_id'].'>'.$value['category_name'].'</option>';
-									if($results['0']['category_id'] == $value['category_id']) {
+									if($edit_results['0']['category_id'] == $value['category_id']) {
 					                    echo '<option selected value='.$value['category_id'].'>'.$value['category_name'].'</option>';
 					                } else {
 					                    echo '<option value='.$value['category_id'].'>'.$value['category_name'].'</option>';
@@ -100,38 +96,45 @@ function create_journal_post() {
 					<div class="col-sm-9">
 						<select class="form-control" name="journal_id">
 							<?php 
-							/*echo '<option val="">Select Journal</option>';
-							foreach ($jou_res as $key => $value) {
-								//echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
-								if($results['0']['journal_id'] == $value['id']) {
-								    echo '<option selected value='.$value['id'].'>'.$value['journal_name'].'</option>';
-								} else {
-								    echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
-								}
-							}*/
 							echo '<option value="">Select Journal</option>';
 							    echo '<optgroup label="Medical"></optgroup>';
-								foreach ($results as $key => $value) {										
+								foreach ($temp as $key => $value) {										
 										if($value['category_name'] == 'Medical') {
-									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+											if($edit_results['0']['journal_id'] == $value['id']) {
+									  			echo '<option selected value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		} else {
+									  			echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		}
 										} 
 								}
 								echo '<optgroup label="Biotechnology"></optgroup>';
-								foreach ($results as $key => $value) {										
+								foreach ($temp as $key => $value) {										
 										if($value['category_name'] == 'Biotechnology') {
-									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+											if($edit_results['0']['journal_id'] == $value['id']) {
+									  			echo '<option selected value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		} else {
+									  			echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		}
 										} 
 								}
 								echo '<optgroup label="Biology"></optgroup>';
-								foreach ($results as $key => $value) {										
+								foreach ($temp as $key => $value) {										
 										if($value['category_name'] == 'Biology') {
-									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+											if($edit_results['0']['journal_id'] == $value['id']) {
+									  			echo '<option selected value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		} else {
+									  			echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		}
 										} 
 								}
 								echo '<optgroup label="Pharmaceutical"></optgroup>';
-								foreach ($results as $key => $value) {										
+								foreach ($temp as $key => $value) {										
 										if($value['category_name'] == 'Pharmaceutical') {
-									  		echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+											if($edit_results['0']['journal_id'] == $value['id']) {
+									  			echo '<option selected value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		} else {
+									  			echo '<option value='.$value['id'].'>'.$value['journal_name'].'</option>';
+									  		}
 										} 
 								}
 
@@ -144,7 +147,7 @@ function create_journal_post() {
 					<div class="col-sm-9">
 						<?php
 						if($_GET['id']) {							
-							the_editor($results['0']['post_content'], 'content');     							
+							the_editor($edit_results['0']['post_content'], 'content');     							
 						}else {
 							the_editor($content, 'content');
 						}

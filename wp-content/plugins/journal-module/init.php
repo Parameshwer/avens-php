@@ -103,6 +103,7 @@ function add_header_phpmodule() {
     wp_enqueue_style( 'bootstrap-css', plugin_dir_url( __FILE__ ).'css/bootstrap.min.css');
     wp_enqueue_style( 'my-css', plugin_dir_url( __FILE__ ).'css/my-style.css');
     wp_enqueue_script('validator', plugin_dir_url( __FILE__ ).'js/jquery.validator.js');
+    wp_enqueue_script('bootstrap', plugin_dir_url( __FILE__ ).'js/bootstrap.min.js');
     wp_enqueue_script('my-js', plugin_dir_url( __FILE__ ).'js/my-script.js');
 
 }

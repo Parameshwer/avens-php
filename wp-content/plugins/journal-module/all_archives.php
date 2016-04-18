@@ -14,9 +14,13 @@ function all_archives() {
                 array( 'id' => $_GET['archive_id'])
                );		 
 		  if($res) {
+                echo '<script>window.location.href = "'.admin_url().'admin.php?page=all_archives&status=true";
+</script>';
                 $message.="Archive Moved successfully";
             } else {
-                $message.="Archive uanble Move";
+
+                 echo '<script>window.location.href = "'.admin_url().'admin.php?page=all_archives&status=false";
+</script>';
             }
 
 $results = $wpdb->get_results( 'SELECT a.id, a.archive_doi,a.archive_year,a.archive_volume, a.archive_fulltext,a.archive_pdf,a.archive_in, a.created_date,b.journal_name, c.category_name FROM 
@@ -129,11 +133,11 @@ $results = $wpdb->get_results( 'SELECT a.id, a.archive_doi,a.archive_year,a.arch
 	    }
 }
 </script>
-<?php if (isset($message)){ ?>
-<div class="col-sm-12">
-    <div class="updated"><p><?php echo $message;?></p></div>
-</div>
-<?php } ?>
+<?php if ($_GET['status'] == 'true'){ 
+echo '<div class="col-sm-12"><div class="updated"><p>Archive Moved successfully</p></div></div>';
+} else if($_GET['status'] == 'false'){
+echo '<div class="col-sm-12"><div class="updated"><p>Archive unable to move</p></div></div>';
+	} ?>
 <?php }
 ?>
 
