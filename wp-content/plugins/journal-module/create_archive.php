@@ -128,13 +128,13 @@ function create_archive() {
 							<div class="form-group">
 								<label for="journal_name" class="col-sm-3 control-label">Archive DOI</label>
 								<div class="col-sm-9">
-									<input type="text" name="archive_doi" required id="archive_doi" class="form-control"  value="<?php echo isset($edit_vals['0']['archive_doi'])?$edit_vals['0']['archive_doi']:''; ?>" />
+									<input type="text" name="archive_doi" id="archive_doi" class="form-control"  value="<?php echo isset($edit_vals['0']['archive_doi'])?$edit_vals['0']['archive_doi']:''; ?>" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="journal_name" class="col-sm-3 control-label">Archive Year</label>
 								<div class="col-sm-9">
-									<select class="form-control" name="archive_year" required>
+									<select class="form-control" name="archive_year">
 										<option value="">Select a year</option>
 										<?php for ($i=2000; $i <=  date("Y") ; $i++) {
 										if($results['0']['archive_year'] == $i) {

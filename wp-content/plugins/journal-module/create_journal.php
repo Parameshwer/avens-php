@@ -5,6 +5,7 @@ function create_journal() {
 
     if($_POST['insert']) {
         $journal_name = $_POST['journal_name'];
+        $journal_url_slug = $_POST['journal_url_slug'];
         $created_date = date("Y-m-d");
         $updated_date = date("Y-m-d");
         $issn_number = $_POST['issn_number'];
@@ -14,11 +15,12 @@ function create_journal() {
         $journal_ic_value = $_POST['journal_ic_value'];
         $main_category = $_POST['main_category'];
         $journal_description    = $_POST['journal_description'];
-        if($_POST['post_id']) {
+        if($_POST['id']) {
             $results = $wpdb->update( 
                 'wp_journals', 
                 array( 
                     'journal_name' => $journal_name,
+                    'journal_url_slug' => $journal_url_slug,
                     'created_date' => $created_date,
                     'updated_date' => $updated_date,
                     'issn_number'  => $issn_number,
@@ -41,6 +43,7 @@ function create_journal() {
 
             $wpdb->insert( 'wp_journals', array(
                 'journal_name' => $journal_name,
+                'journal_url_slug' => $journal_url_slug,
                 'created_date' => $created_date,
                 'updated_date' => $updated_date,
                 'issn_number'  => $issn_number,
@@ -71,8 +74,14 @@ function create_journal() {
                 <div class="form-group">
                     <label for="journal_name" class="col-sm-3 control-label">Journal Name</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="journal_name" name="journal_name" required value="<?php echo isset($results['0']['journal_name'])?$results['0']['journal_name']:''; ?>">
+                        <input type="text" class="form-control" id="journal_name" name="journal_name" required value="<?php echo isset($results['0']['journal_name'])?$results['0']['journal_name']:''; ?>" onblur="convertToSlug(jQuery(this).val())">
                         <input type="hidden" name="id" value="<?php echo $results['0']['id']; ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="journal_name" class="col-sm-3 control-label">Journal url slug</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="journal_url_slug" name="journal_url_slug" required value="<?php echo isset($results['0']['journal_url_slug'])?$results['0']['journal_url_slug']:''; ?>">                        
                     </div>
                 </div>
                 <div class="form-group">
@@ -161,14 +170,16 @@ function create_journal() {
             }).open()
             .on('select', function(e){
                 var uploaded_image = image.state().get('selection').first();
-//console.log(uploaded_image);
 var image_url = uploaded_image.toJSON().url;
-console.log(ME);
-console.log($(this));
 ME.closest('.form-group').find('.regular-text').val(image_url);
 });
         });
+       
     });
+     function convertToSlug(Text)
+        {
+            jQuery('#journal_url_slug').val(Text.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'));
+        }
 </script>
 <?php if (isset($message)){ ?>
 <div class="col-sm-12">

@@ -19,6 +19,9 @@
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<?php endif; ?>
 	<?php wp_head(); ?>
+	<link rel="stylesheet" type="text/css" href="http://localhost/avens-php/wp-content/themes/twentysixteen/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="http://localhost/avens-php/wp-content/themes/twentysixteen/theme.css">
+
 </head>
 
 <body <?php body_class(); ?>>

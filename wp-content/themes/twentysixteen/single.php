@@ -8,7 +8,7 @@
  */
 
 get_header(); ?>
-
+<?php echo 'content';exit; ?>
 <div id="primary" class="content-area">
 	<main id="main" class="site-main" role="main">
 		<?php

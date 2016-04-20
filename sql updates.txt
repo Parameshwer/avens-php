@@ -1,0 +1,1 @@
+ALTER TABLE `wp_journals` ADD `journal_url_slug` TEXT NOT NULL AFTER `journal_name`;

@@ -13,9 +13,9 @@ function all_journals() {
 		echo '<th>Journal Name</th>';
 		echo '<th>Journal Meta Keywords</th>';
 		echo '<th>Journal Category</th>';
-		echo '<th>Journal Ic value</th>';
-		echo '<th>Banner Image</th>';
-		echo '<th>Sidebar Image</th>';
+		echo '<th>Journal url slug</th>';
+		//echo '<th>Banner Image</th>';
+		//echo '<th>Sidebar Image</th>';
 		echo '<th>Journal Description</th>';
 		echo '<th>Created Date</th>';
 		echo '<th>Edit</th>';
@@ -27,9 +27,9 @@ function all_journals() {
 			echo '<td>'.$value['journal_name'].'</td>';    
 			echo '<td>'.$value['journal_meta_keywords'].'</td>';
 			echo '<td>'.$value['category_name'].'</td>';
-			echo '<td>'.$value['journal_ic_value'].'</td>';
-			echo '<td><img src="'.$value['banner_image'].'" alt="" width="60px" height="60px" /></td>';
-			echo '<td><img src="'.$value['sidebar_image'].'" alt=""  width="60px" height="60px" /></td>';
+			echo '<td>'.$value['journal_url_slug'].'</td>';
+			//echo '<td><img src="'.$value['banner_image'].'" alt="" width="60px" height="60px" /></td>';
+			//echo '<td><img src="'.$value['sidebar_image'].'" alt=""  width="60px" height="60px" /></td>';
 			echo '<td>'.$value['journal_description'].'</td>';					
 
 			echo '<td>'.$value['created_date'].'</td>';
