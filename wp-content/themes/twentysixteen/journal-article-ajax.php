@@ -22,7 +22,7 @@ if(isset($_GET["sort_type"])){
 		foreach($results as $row) { loer?>									
 		<ul class="cat-ul">
 			<li>
-				<?php echo '<a href="http://localhost/avens-php/'.strtolower($row['category_name']).'/'.$row['journal_url_slug'].'">'.$row['journal_name'].'</a>'; ?>
+				<?php echo '<a href="http://localhost/avens-php/'.strtolower($row['category_name']).'/'.$row['journal_url_slug'].'/home">'.$row['journal_name'].'</a>'; ?>
 				<span class="pull-right"><p> <span class="pull-right"><?php echo $row['issn_number']; ?></span> </p>
 			</span></li>
 		</ul>				

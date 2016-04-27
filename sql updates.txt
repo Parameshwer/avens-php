@@ -1,1 +1,5 @@
 ALTER TABLE `wp_journals` ADD `journal_url_slug` TEXT NOT NULL AFTER `journal_name`;
+
+ALTER TABLE `wp_journal_posts` ADD `post_slug` TEXT NOT NULL AFTER `journal_id`, ADD `journal_slug` TEXT NOT NULL AFTER `post_slug`;
+
+ALTER TABLE `wp_journal_archives` ADD `journal_slug` TEXT NOT NULL AFTER `archive_in`;

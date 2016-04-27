@@ -9,6 +9,8 @@ function create_journal_post() {
         $updated_date = date("Y-m-d");
         $category_id = $_POST['category_id'];
         $journal_id = $_POST['journal_id'];
+        $post_slug = $_POST['journal_post_slug'];
+        $journal_slug = $_POST['journal_slug'];
         $post_content = $_POST['content'];    
         if($_POST['id']) {
             $results = $wpdb->update( 
@@ -19,6 +21,8 @@ function create_journal_post() {
                     'updated_date' => $updated_date,
                     'category_id' => $category_id,
                     'journal_id' => $journal_id,
+                    'post_slug' => $post_slug,
+                    'journal_slug' => $journal_slug,
                     'post_content' => $post_content
                     ), 
                 array( 'id' => $_GET['id'])  
@@ -37,6 +41,8 @@ function create_journal_post() {
 					'updated_date' => $updated_date,
 					'category_id' => $category_id,
 					'journal_id' => $journal_id,
+					'post_slug' => $post_slug,
+                    'journal_slug' => $journal_slug,
 					'post_content' => $post_content
                 )
             );
@@ -69,8 +75,15 @@ function create_journal_post() {
 				<div class="form-group">
 					<label for="issn_number" class="col-sm-3 control-label">Post Name</label>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="journal_post_name" name="journal_post_name" value="<?php echo isset($edit_results['0']['post_name'])?$edit_results['0']['post_name']:''; ?>" required>
+						<input type="text" class="form-control" id="journal_post_name" name="journal_post_name" value="<?php echo isset($edit_results['0']['post_name'])?$edit_results['0']['post_name']:''; ?>"
+						onblur="convertToPostSlug(jQuery(this).val())" required>
 						<input type="hidden" name="id" value="<?php echo $edit_results['0']['id']; ?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="issn_number" class="col-sm-3 control-label">Post Slug</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="journal_post_slug" name="journal_post_slug" value="<?php echo isset($edit_results['0']['post_slug'])?$edit_results['0']['post_slug']:''; ?>" required>					
 					</div>
 				</div>
 				<div class="form-group">
@@ -94,7 +107,7 @@ function create_journal_post() {
 				<div class="form-group">
 					<label for="journal_name" class="col-sm-3 control-label">Journal Name</label>
 					<div class="col-sm-9">
-						<select class="form-control" name="journal_id">
+<select class="form-control" name="journal_id" id="journal_name" onblur="convertToJournalSlug(jQuery('#journal_name option:selected').text())">
 							<?php 
 							echo '<option value="">Select Journal</option>';
 							    echo '<optgroup label="Medical"></optgroup>';
@@ -142,6 +155,12 @@ function create_journal_post() {
 						</select>
 					</div>
 				</div>
+				<div class="form-group">
+					<label for="issn_number" class="col-sm-3 control-label">Jounral Slug</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="journal_slug" name="journal_slug" value="<?php echo isset($edit_results['0']['journal_slug'])?$edit_results['0']['journal_slug']:''; ?>" required>					
+					</div>
+				</div>
 				<div class="form-group" required>
 					<label for="banner_image" class="col-sm-3 control-label">Post Content</label>
 					<div class="col-sm-9">
@@ -168,3 +187,13 @@ function create_journal_post() {
 	</div>
 	<?php } ?>
 	<?php } ?>
+<script type="text/javascript">
+	function convertToPostSlug(Text)
+    {
+        jQuery('#journal_post_slug').val(Text.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'));
+    }
+    function convertToJournalSlug(Text)
+    {
+        jQuery('#journal_slug').val(Text.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'));
+    }
+</script>
