@@ -8,6 +8,13 @@
  */
 
 get_header(); ?>
+<?php
+$_SERVER['REQUEST_URI_PATH'] = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$segments = explode('/', $_SERVER['REQUEST_URI_PATH']);
+if($segments[2] == 'medical' || $segments[2] == 'biotechnology' || $segments[2] == 'pharmaceutical' || $segments[2] == 'biotechnology') {
+
+} 
+?>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 

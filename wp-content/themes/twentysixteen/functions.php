@@ -409,4 +409,21 @@ add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
 
 add_action('admin_post_submit-form', '_handle_form_action'); // If the user is logged in
 add_action('admin_post_nopriv_submit-form', '_handle_form_action'); // If the user in not logged in
+// Our custom post type function
+function create_posttype() {
 
+	register_post_type( 'movies',
+	// CPT Options
+		array(
+			'labels' => array(
+				'name' => __( 'Movies' ),
+				'singular_name' => __( 'Movie' )
+			),
+			'public' => true,
+			'has_archive' => true,
+			'rewrite' => array('slug' => 'movies'),
+		)
+	);
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_posttype' );
